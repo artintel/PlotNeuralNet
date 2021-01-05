@@ -56,6 +56,50 @@ def to_Conv( name, s_filer=256, n_filer=64, offset="(0,0,0)", to="(0,0,0)", widt
         }
     };
 """
+# Fusion_Conv
+def to_Fusion_Conv( name, s_filer=256, n_filer=64, offset="(0,0,0)", to="(0,0,0)", width=1, height=40, depth=40, caption=" " ):
+    return r"""
+\pic[shift={"""+ offset +"""}] at """+ to +""" 
+    {Box={
+        name=""" + name +""",
+        caption="""+ caption +r""",
+        xlabel={{"""+ str(n_filer) +""", }},
+        zlabel="""+ str(s_filer) +""",
+        fill={rgb:white,2;blue,4},
+        height="""+ str(height) +""",
+        width="""+ str(width) +""",
+        depth="""+ str(depth) +"""
+        }
+    };
+"""
+def to_Gallery(name, offset="(0,0,0)", to="(0,0,0)", width=1, height=32, depth=32, opacity=0.5, caption=" "):
+    return r"""
+\pic[shift={ """+ offset +""" }] at """+ to +""" 
+    {Box={
+        name="""+name+""",
+        caption="""+ caption +r""",
+        fill={rgb:white,4;black,1},
+        opacity="""+ str(opacity) +""",
+        height="""+ str(height) +""",
+        width="""+ str(width) +""",
+        depth="""+ str(depth) +"""
+        }
+    };
+"""
+def to_Gallery_map(name, offset="(0,0,0)", to="(0,0,0)", width=1, height=32, depth=32, opacity=0.5, caption=" "):
+    return r"""
+\pic[shift={ """+ offset +""" }] at """+ to +""" 
+    {Box={
+        name="""+name+""",
+        caption="""+ caption +r""",
+        fill=\SoftmaxColor,
+        opacity="""+ str(opacity) +""",
+        height="""+ str(height) +""",
+        width="""+ str(width) +""",
+        depth="""+ str(depth) +"""
+        }
+    };
+"""
 
 # Conv,Conv,relu
 # Bottleneck
@@ -69,6 +113,23 @@ def to_ConvConvRelu( name, s_filer=256, n_filer=(64,64), offset="(0,0,0)", to="(
         zlabel="""+ str(s_filer) +""",
         fill=\ConvColor,
         bandfill=\ConvReluColor,
+        height="""+ str(height) +""",
+        width={ """+ str(width[0]) +""" , """+ str(width[1]) +""" },
+        depth="""+ str(depth) +"""
+        }
+    };
+"""
+
+def to_Fusion_ConvConvRelu( name, s_filer=256, n_filer=(64,64), offset="(0,0,0)", to="(0,0,0)", width=(2,2), height=40, depth=40, caption=" " ):
+    return r"""
+\pic[shift={ """+ offset +""" }] at """+ to +""" 
+    {RightBandedBox={
+        name="""+ name +""",
+        caption="""+ caption +""",
+        xlabel={{ """+ str(n_filer[0]) +""", """+ str(n_filer[1]) +""" }},
+        zlabel="""+ str(s_filer) +""",
+        fill={rgb:white,2;blue,4},
+        bandfill={rgb:white,2;black,3},
         height="""+ str(height) +""",
         width={ """+ str(width[0]) +""" , """+ str(width[1]) +""" },
         depth="""+ str(depth) +"""
@@ -165,11 +226,12 @@ def to_SoftMax( name, s_filer=10, offset="(0,0,0)", to="(0,0,0)", width=1.5, hei
     };
 """
 
-def to_Sum( name, offset="(0,0,0)", to="(0,0,0)", radius=2.5, opacity=0.6):
+def to_Sum( name, offset="(0,0,0)", to="(0,0,0)", radius=2.5, opacity=0.6, caption=" "):
     return r"""
 \pic[shift={"""+ offset +"""}] at """+ to +""" 
     {Ball={
         name=""" + name +""",
+        caption="""+ caption +""",
         fill=\SumColor,
         opacity="""+ str(opacity) +""",
         radius="""+ str(radius) +""",
